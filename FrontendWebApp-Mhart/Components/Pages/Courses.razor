@@ -1,0 +1,109 @@
+﻿@page "/courses"
+
+@attribute [StreamRendering]
+@attribute [Authorize]
+
+
+<PageTitle>Courses</PageTitle>
+
+<section class="courses">
+	<div class="container">
+		<div class="header">
+			<h1>Courses</h1>
+			<form id="form-filters">
+				<select>
+					<option> All categories</option>
+				</select>
+				<div class="input-search-group">
+					<input id="searchQuery" name="searchQuery" placeholder="Search courses" />
+					<i class="fa-refular fa-search"></i>
+				</div>
+			</form>
+		</div>
+
+		<div class="course-itmes">
+			@if (courses == null)
+			{
+				<p><em>Please Standby.... </em> </p>
+			}
+			else
+			{
+				@foreach (var course in courses)
+				{
+					<a class="course" asp-action="Details" asp-controller="Courses" asp-route-id="@course.Id">
+						@if (course.IsBestseller)
+						{
+							<div class="bestseller"> Best seller </div>
+						}
+						<button class="btn btn-circle bookmark"><i class="fa-regular fa-bookmark"></i></button>
+
+						<img src="~/image/courses/@course.Image" alt="@course.Title" />
+
+						<div class="content">
+							<h5 class="title">@course.Title</h5>
+							<p class="author">By @course.Author</p>
+							<div class="pricing">
+								@if (!string.IsNullOrEmpty(course.DiscountPrice))
+								{
+									<div class="discount">@course.DiscountPrice </div>
+								}
+								<div class="price">@(!string.IsNullOrEmpty(course.DiscountPrice) ? "discount-enabled" : "")">@course.Price</div>
+							</div>
+							<div class="footer">
+								<div class="hours">
+									<i class="fa-regular fa-clock"></i> course.Hours hours
+								</div>
+								<div class="lkes">
+									<i class="fa-regular fa-thumbs-up"></i> @course.LikesInProcent (@course.LikesInProcent)
+								</div>
+							</div>
+
+						</div>
+
+						<div class="content">
+						</div>
+
+					</a>
+
+				}
+			}
+
+		</div>
+
+	</div>
+</section>
+}
+
+
+
+@code {
+	private CourseModel[]? courses;
+
+	protected override async Task OnInitializedAsync()
+	{
+		try
+		{
+			courses = await Http.GetFromJsonAsync<CourseModel[]>(Environment.GetEnvironmentVariable("COURSES_API"));
+
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine(ex.Message);
+		}
+	}
+
+	private class CourseModel
+	{
+		public int Id { get; set; }
+		public bool IsBestseller { get; set; }
+		public string Image { get; set; } = null!;
+		public string Title { get; set; } = null!;
+		public string Author { get; set; } = null!;
+		public string Price { get; set; } = null!;
+		public string? DiscountPrice { get; set; } = null!;
+		public string Hours { get; set; } = null!;
+		public string LikesInProcent { get; set; } = null!;
+		public string LikesInNumbers { get; set; } = null!;
+
+	}
+}

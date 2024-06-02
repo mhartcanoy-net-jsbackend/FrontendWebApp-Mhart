@@ -1,0 +1,46 @@
+﻿<header>
+	<div class=" container">
+		<a id="logo" href="">
+			<img src="/images/logos/solid.svg" alt="Silicon" />
+		</a>
+
+		<nav>
+			<NavLink href=""Match="NavLinkMatch.All">Overview</NavLink>
+			<NavLink href="/#features">Features</NavLink>
+		
+			<AuthorizeView>
+				<Authorized>
+				<NavLink href="/courses">Courses</NavLink>
+				
+				</Authorized>
+			</AuthorizeView>
+
+			<NavLink href="/contacts">Contact</NavLink>
+		</nav>
+
+		<div id="theme-switch" class="btn-switch">
+			<label>Light</label>
+			<label class="switch" for="switch-mode">
+				<input type="checkbox" id="switch-mode" />
+				<span class="slider round"></span>
+			</label>
+			<label>Dark</label>
+		</div>
+
+		<div class="account-buttons">
+			<AuthorizeView>
+				<Authorized>
+					<div class="profile-image">
+						<a href="/account/details">
+							<img src="/images/uploads/profiles/avatar.jpg" />
+						</a>
+					</div>
+				</Authorized>
+				<NotAuthorized>
+				<a class="btn btn-gray" href="/signin"><i class="fa-regular fa-arrow-right-to-bracket"></i>Sign in</a>
+				<a class="btn btn-theme" href="/signup"><i class="fa-regular fa-user"></i>Sign Up</a
+				</NotAuthorized>
+			</AuthorizeView>
+		</div>
+	</div>
+</header>
